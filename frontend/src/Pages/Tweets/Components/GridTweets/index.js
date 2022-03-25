@@ -3,12 +3,13 @@ import axios from "axios";
 import GridTweetsCard from "./Card";
 import "./index.css";
 import io from 'socket.io-client';
+import { useNavigate } from "react-router-dom";
 
 function GridTweets(props) {
     const [data, setData] = useState([]);
+    let navigate = useNavigate();
     
     async function getData() {
-        console.log('testa'); 
         const hashtag = localStorage.getItem('hashtag');
         try {
             const {data: response} = await axios.get(`${process.env.REACT_APP_API_URL}/tweets/${hashtag}`);
@@ -19,14 +20,16 @@ function GridTweets(props) {
     }
 
     useEffect(() => {
+        if(!localStorage.getItem('hashtag')) {
+            alert('Informe uma hashtag')
+            navigate(`/`);
+        }
+
         (async function() {
             await getData();
-            if (!data.length) {
-                console.log('aaa'); 
+            if (!data.length)
                 setInterval(getData, 10000);
-            }
         })();
-        
     }, []);
 
     async function handleApprove(cardId) {

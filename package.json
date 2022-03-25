@@ -1,0 +1,7 @@
+{
+  "name": "API",
+  "scripts": {
+    "create-api": "cd ./api && npm install && npx sequelize db:migrate && npm run dev",
+    "create-frontend": "cd ./frontend && npm install && npm run dev"
+  }
+}
