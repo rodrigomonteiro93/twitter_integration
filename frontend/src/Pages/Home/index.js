@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 function Home() {
 
   let navigate = useNavigate();
-  const [hashtag, setHashtag] = useState('');
+  const [hashtag, setHashtag] = useState(localStorage.getItem('hashtag') || '');
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    localStorage.setItem("hashtag", hashtag);
-
+    localStorage.setItem("hashtag", hashtag.replace('#', ''));
+    setHashtag(localStorage.getItem('hashtag'))
     navigate(`/tweets`);
   }
 

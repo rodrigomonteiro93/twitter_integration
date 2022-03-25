@@ -19,7 +19,7 @@ function Header () {
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/telao">
+                                <NavLink target="_blank" to="/telao">
                                     Telão
                                 </NavLink>
                             </li>
