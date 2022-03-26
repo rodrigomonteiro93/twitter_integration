@@ -42,10 +42,10 @@ function GridTweets() {
     }
 
     useEffect(() => {
-        if(!localStorage.getItem('hashtag'))
-            redirectToHome('Informe uma hashtag')
-        else if(!localStorage.getItem('userToken'))
+        if (!localStorage.getItem('userToken'))
             redirectToHome('Faça login para continuar')
+        else if (!localStorage.getItem('hashtag'))
+            redirectToHome('Informe uma hashtag')
         else
             getData().then();
         return () => {console.log('finiza' + intervalId); clearInterval(intervalId)};
