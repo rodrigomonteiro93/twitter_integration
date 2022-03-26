@@ -7,13 +7,19 @@ Este comando executa a instalação de dependências, criação de banco de dado
 
 - npm run create-frontend
 
-Este comando executa a instalação de dependências, e inicia o servidor.
+Este comando executa a instalação de dependências e inicia o servidor.
+------------------
+
+    Acessos login
+
+* E-mail: teste@teste.com.br
+* Senha: 12345
 
 ------------------
 
     Avisos
 
-* <b>Só será possivel visualizar o tweet aprovado se você estiver com uma segunda aba aberta na página /telao no momento da aprovação.</b>
+* <b>Para aprovar os Tweets é necessário estar logado.</b>
 * <b>Ao voltar na home você pode alterar a hashtag.</b>
 
 ------------------

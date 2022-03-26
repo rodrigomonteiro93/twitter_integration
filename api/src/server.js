@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3333;
+var bodyParser = require('body-parser')
 
 require('./database');
 const routes = require('./routes'); 
@@ -12,6 +13,8 @@ app.use(
   })
 );
 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(routes);
 
 const http = require('http').Server(app);
