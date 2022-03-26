@@ -4,6 +4,9 @@
 /frontend/node_modules
 /api/database.sqlite
 /api/node_modules
+/client/node_modules
+/server/database.sqlite
+/server/node_modules
 /.pnp
 .pnp.js
 
