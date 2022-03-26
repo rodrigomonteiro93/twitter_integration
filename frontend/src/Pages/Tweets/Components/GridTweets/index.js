@@ -12,7 +12,7 @@ function GridTweets() {
 
     function redirectToHome(message) {
         alert(message);
-        //localStorage.removeItem('userToken')
+        localStorage.removeItem('userToken')
         navigate(`/`);
     }
     
