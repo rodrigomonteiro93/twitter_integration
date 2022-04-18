@@ -19,6 +19,7 @@ Este comando executa a instalação de dependências e inicia o servidor.
 
     Avisos
 
+* <b>O Código refatorado está na branch develop (adicionado services e configurações) para acessar use "git checkout develop".</b>
 * <b>Para aprovar os Tweets é necessário estar logado.</b>
 * <b>Ao voltar na home você pode alterar a hashtag.</b>
 
