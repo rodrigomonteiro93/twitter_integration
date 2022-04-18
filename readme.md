@@ -1,12 +1,12 @@
     Instalação e execução
 
 Comandos personalizados no package.json na raiz do projeto (será necessário o uso de 2 servidores)
-- npm run create-api
+- npm run create-server
 
 Este comando executa a instalação de dependências, criação de banco de dados Sqlite com migração usando ORM Sequelize e inicia o servidor.
 
-- npm run create-frontend
-
+- npm run create-client
+ 
 Este comando executa a instalação de dependências e inicia o servidor.
 ------------------
 
