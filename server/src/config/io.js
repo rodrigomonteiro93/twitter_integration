@@ -4,6 +4,7 @@
 
    io.on('connection', function(socket) {
       socket.on('notifyTweetApproved', function (id) {
+         console.log('[SOCKET] notifyTweetApproved')
          io.emit('notifyTweetApproved', id);
       });
     });

@@ -1,44 +1,41 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { doLogin } from '../../Services/AuthService';
 
 function Home() {
-
   let navigate = useNavigate();
+
   const [hashtag, setHashtag] = useState(localStorage.getItem('hashtag'));
   const [userToken, setUserToken] = useState(localStorage.getItem('userToken'));
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault();
 
     localStorage.setItem("hashtag", hashtag.replace('#', ''));
     setHashtag(localStorage.getItem('hashtag'))
+    
     navigate(`/tweets`);
   }
   
-  const handleFormLoginSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const {status, data} = await axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
-        email: email,
-        password: password,
-      });
-      if (status === 200) {
-        if (data.auth) {
-          localStorage.setItem('userToken', data.token);
-          setUserToken(data.token);
+  const handleFormLoginSubmit = async event => {
+    event.preventDefault();
+
+    doLogin(email, password)
+    .then(response => {
+        if(response) {
+          localStorage.setItem('userToken', response.token);
+          setUserToken(response.token);
           setEmail('');
           setPassword('');
           setHashtag('')
         }
-      }
-
-    } catch (error) {
-        console.error(error.message);
-    }
+    })
+    .catch(err => {
+        console.error(err);
+        alert(`E-mail e/ou senha inválidos.`);
+    });
   }
 
   return (

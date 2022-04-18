@@ -7,7 +7,7 @@ const middleware = AuthController.middleware;
 const routes = express();
 
 routes.get('/tweets/:hashtag', middleware, TweetController.getTweets);
-routes.get('/tweet/:id', middleware, TweetController.show);
+routes.get('/tweet/:id', TweetController.show);
 routes.get('/tweets/approve/:id', middleware, TweetController.ApproveTweet);
 routes.get('/tweets/reprove/:id', middleware, TweetController.ReproveTweet);
 
