@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import GridTweetsCard from "./Card";
 import "./index.css";
-import io from 'socket.io-client';
 import { useNavigate } from "react-router-dom";
+import { getTweets, approveTweet, reproveTweet } from '../../../../Services/TweetService';
+import socket from '../../../../Configs/Socket.io';
+import { emmitNotification } from '../../../../Services/IoService';
 
 function GridTweets() {
     const [data, setData] = useState([]);
+    const [hashtag, setHashtag] = useState(localStorage.getItem('hashtag'));
+
     let navigate = useNavigate();
     let intervalId = '';
 
@@ -18,20 +21,12 @@ function GridTweets() {
     
     async function getData() {
         clearInterval(intervalId);
-        const hashtag = localStorage.getItem('hashtag');
-        const tokenStr = localStorage.getItem('userToken');
-
-        const header = {
-            headers: {
-                "X-Auth-Token": tokenStr,
-                "content-type": "application/json"
-            }
-        };
         
-        axios.get(`${process.env.REACT_APP_API_URL}/tweets/${hashtag}`, header)
-        .then(dataResponse => {
-            setData(dataResponse.data);
-            if (!data.length)
+        getTweets(hashtag, localStorage.getItem('userToken'))
+        .then(response => {
+            if(response)
+                setData(response);
+            if (!response.length)
                 intervalId = setInterval(getData, 10000);
         })
         .catch(function (error) {
@@ -48,46 +43,35 @@ function GridTweets() {
             redirectToHome('Informe uma hashtag')
         else
             getData().then();
-        return () => {console.log('finiza' + intervalId); clearInterval(intervalId)};
-    }, []);
+        return () => clearInterval(intervalId);
+    }, [ hashtag ]);
 
     async function handleApprove(cardId) {
-        const tokenStr = localStorage.getItem('userToken');
-        const header = {
-            headers: {
-                "X-Auth-Token": tokenStr,
-                "content-type": "application/json"
-            }
-        };
-        try {
-            const {status} = await axios.get(`${process.env.REACT_APP_API_URL}/tweets/approve/${cardId}`, header);
-            if (status === 200) {
-                const newSocket = io(process.env.REACT_APP_API_URL);
-                newSocket.emit('notifyTweetApproved', cardId);
+        approveTweet(cardId, localStorage.getItem('userToken'))
+        .then(response => {
+            if (response) {
+                emmitNotification(socket, 'notifyTweetApproved', cardId);
                 alert('O tweet foi aprovado e esta sendo exibido no telão');
                 localStorage.setItem('lastTweetApprove', cardId);
-                await getData();
+                getData();
             }
-        } catch (error) {
-            console.error(error.message);
-        }
+        })
+        .catch(err => {
+            console.error(err);
+        });
     }
 
     async function handleReprove(cardId) {
-        const tokenStr = localStorage.getItem('userToken');
-        const header = {
-            headers: {
-                "X-Auth-Token": tokenStr,
-                "content-type": "application/json"
+        reproveTweet(cardId, localStorage.getItem('userToken'))
+        .then(response => {
+            if (response) {
+                alert('O tweet foi reprovado.');
+                getData();
             }
-        };
-        try {
-            const {status} = await axios.get(`${process.env.REACT_APP_API_URL}/tweets/reprove/${cardId}`, header);
-            if (status === 200)
-                await getData();    
-        } catch (error) {
-            console.error(error.message);
-        }
+        })
+        .catch(err => {
+            console.error(err);
+        });
     }
 
     return (

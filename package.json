@@ -1,7 +1,7 @@
 {
-  "name": "API",
+  "name": "Project",
   "scripts": {
-    "create-api": "cd ./api && npm install && npx sequelize db:migrate && npx sequelize db:seed:all && npm run dev",
-    "create-frontend": "cd ./frontend && npm install && npm run dev"
+    "create-server": "cd ./server && npm install && npx sequelize db:migrate && npx sequelize db:seed:all && npm run dev",
+    "create-client": "cd ./client && npm install && npm run dev"
   }
 }
